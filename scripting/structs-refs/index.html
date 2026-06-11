@@ -136,6 +136,13 @@ That means properties of a struct parameter cannot be changed, and non-const met
 When you declare a struct parameter, it is internally implemented as a const reference, as if you added <code>const &amp;</code>.</p>
 <p>This means there is no difference between an <code>FVector</code> parameter and a <code>const FVector&amp;</code> parameter. Both behave exactly the same in performance and semantics.</p>
 <p>This choice was made to improve script performance and avoid having to instruct gameplay scripters to write <code>const &amp;</code> on all their parameters.</p>
+<h2 id="serialization-and-replication-of-fields">Serialization and replication of fields<a class="zola-anchor" href="#serialization-and-replication-of-fields" aria-label="Anchor link for: serialization-and-replication-of-fields">🔗</a></h2>
+<p>Even if fields in structs are not annotated with <code>UPROPERTY()</code> they are still registered as such internally by Angelscript. That implies that by default, all fields of a struct are serialized and replicated unless explicitly specified using <code>UPROPERTY(Transient)</code> and <code>UPROPERTY(NotReplicated)</code>.</p>
+<p>To mirror the behaviour of a missing <code>UPROPERTY()</code> annotation as in C++, two project settings allow control over how struct fields without <code>UPROPERTY()</code> should behave:</p>
+<ul>
+<li><code>Mark Non UProperty Properties as Transient</code></li>
+<li><code>Mark Non UProperty Properties as Not Replicated</code></li>
+</ul>
 
 </article>
 	</main>
