@@ -1,80 +1,80 @@
 +++
-title = "Automatic Bindings"
+title = "자동 바인딩"
 weight = 10
 +++
 
-# Automatic Bindings
+# 자동 바인딩
 
-When the engine starts, the angelscript plugin automatically goes through all of unreal's reflection data.
+엔진이 시작되면 Angelscript 플러그인이 Unreal의 모든 리플렉션 데이터를 자동으로 탐색합니다.
 
-Relevant types, properties and functions from C++ are automatically given bindings into Angelscript so they can be used from your scripts.
+C++의 관련 타입, 프로퍼티, 함수는 스크립트에서 사용할 수 있도록 Angelscript에 자동으로 바인딩됩니다.
 
-The general principle of automatic bindings is:  
-If it can be used from Blueprint, it should be usable from Angelscript.
+자동 바인딩의 기본 원칙은 다음과 같습니다.
+블루프린트에서 사용할 수 있다면 Angelscript에서도 사용할 수 있어야 합니다.
 
-## Class Bindings
+## 클래스 바인딩
 
-Classes in C++ that are marked with `UCLASS()` are automatically bound either when they have the `BlueprintType` specifier, or if they contain any functions with `BlueprintCallable`.
+C++에서 `UCLASS()`로 표시된 클래스는 `BlueprintType` 지정자가 있거나 `BlueprintCallable` 함수가 하나라도 있으면 자동으로 바인딩됩니다.
 
-Classes can be skipped for automatic bindings by adding the `NotInAngelscript` metadata.
+`NotInAngelscript` 메타데이터를 추가하면 클래스를 자동 바인딩에서 제외할 수 있습니다.
 
-## Struct Bindings
+## 구조체 바인딩
 
-Structs in C++ that are marked with `USTRUCT()` are automatically bound either when they have the `BlueprintType` specifier, or if they contain any properties that are blueprint-accessible or editable.
+C++에서 `USTRUCT()`로 표시된 구조체는 `BlueprintType` 지정자가 있거나 블루프린트에서 접근 또는 편집할 수 있는 프로퍼티가 하나라도 있으면 자동으로 바인딩됩니다.
 
-Structs can be skipped for automatic bindings by adding the `NoAutoAngelscriptBind` metadata.
+`NoAutoAngelscriptBind` 메타데이터를 추가하면 구조체를 자동 바인딩에서 제외할 수 있습니다.
 
-## Property Bindings
+## 프로퍼티 바인딩
 
-### Read/Write Flags
+### 읽기/쓰기 플래그
 
-C++ `UPROPERTY`s that are declared with `BlueprintReadWrite` or `BlueprintReadOnly` are automatically bound to script.
+`BlueprintReadWrite` 또는 `BlueprintReadOnly`로 선언된 C++ `UPROPERTY`는 스크립트에 자동으로 바인딩됩니다.
 
-If the property is `BlueprintReadOnly`, it will become `const` and unable to be changed from script.
+프로퍼티가 `BlueprintReadOnly`이면 `const`가 되어 스크립트에서 변경할 수 없습니다.
 
-To expose a property to Angelscript without exposing it to blueprint, you can use the `ScriptReadWrite` or `ScriptReadOnly` specifiers.
+프로퍼티를 블루프린트에 노출하지 않고 Angelscript에만 노출하려면 `ScriptReadWrite` 또는 `ScriptReadOnly` 지정자를 사용할 수 있습니다.
 
-### Editable Flags
+### 편집 가능 플래그
 
-Properties that are declared with any of the editable flags (`EditAnywhere`, `EditInstanceOnly` or `EditDefaultsOnly`) are also exposed to script.
+편집 가능 플래그(`EditAnywhere`, `EditInstanceOnly`, `EditDefaultsOnly`) 중 하나로 선언된 프로퍼티도 스크립트에 노출됩니다.
 
-> **Note:** If a property has an editable flag, but not a blueprint access flag, it will **only** be accessible in script from inside a class `default` statement.
-> _See [Default Statements](@/scripting/actors-components.md#default-statements)._
+> **참고:** 프로퍼티에 편집 가능 플래그는 있지만 블루프린트 접근 플래그가 없다면, 클래스의 `default` 문 안에서만 스크립트로 접근할 수 있습니다.
+> _[기본값 문](@/scripting/actors-components.md#default-statements)을 참고하세요._
 
-### Skipping Properties
+### 프로퍼티 제외
 
-Properties can be skipped for angelscript binds even if they are otherwise accessible to blueprint by adding the `NotInAngelscript` metadata.
+블루프린트에서 접근할 수 있는 프로퍼티라도 `NotInAngelscript` 메타데이터를 추가하면 Angelscript 바인딩에서 제외할 수 있습니다.
 
-## Function Bindings
+## 함수 바인딩
 
-### Callable Flags
+### 호출 가능 플래그
 
-Any C++ `UFUNCTION` that has `BlueprintCallable` or `BlueprintPure` is automatically bound to script.
+`BlueprintCallable` 또는 `BlueprintPure`가 지정된 모든 C++ `UFUNCTION`은 스크립트에 자동으로 바인딩됩니다.
 
-To expose a function to Angelscript without exposing it to blueprint, you can use the `ScriptCallable` specifier.
+함수를 블루프린트에 노출하지 않고 Angelscript에만 노출하려면 `ScriptCallable` 지정자를 사용할 수 있습니다.
 
-### Blueprint Events
+### 블루프린트 이벤트
 
-`UFUNCTION`s with the `BlueprintImplementableEvent` and `BlueprintNativeEvent` specifiers can be overridden from script as well as blueprint.
+`BlueprintImplementableEvent` 및 `BlueprintNativeEvent` 지정자가 있는 `UFUNCTION`은 블루프린트뿐 아니라 스크립트에서도 오버라이드할 수 있습니다.
 
-> See [Overriding BlueprintEvents from C++](@/scripting/functions-and-events.md#overriding-blueprintevents-from-c)
+> [C++의 BlueprintEvent 오버라이드](@/scripting/functions-and-events.md#overriding-blueprintevents-from-c)를 참고하세요.
 
-### Skipping Functions
+### 함수 제외
 
-Functions can be skipped for angelscript binds even if they are otherwise accessible to blueprint by adding the `NotInAngelscript` metadata.
+블루프린트에서 접근할 수 있는 함수라도 `NotInAngelscript` 메타데이터를 추가하면 Angelscript 바인딩에서 제외할 수 있습니다.
 
-### Deprecated Functions
+### 사용 중단된 함수
 
-Functions marked as deprecated are not bound to script at all.
+사용 중단으로 표시된 함수는 스크립트에 전혀 바인딩되지 않습니다.
 
-There is no deprecation warning functionality in script, so engine upgrades may necessitate script changes when Epic deprecates certain APIs.
+스크립트에는 사용 중단 경고 기능이 없으므로, Epic이 특정 API의 사용을 중단하면 엔진 업그레이드 시 스크립트를 변경해야 할 수 있습니다.
 
-## Static Functions
+## 정적 함수
 
-Static functions declared on `UCLASS`es are bound as namespaced global functions in script.
+`UCLASS`에 선언된 정적 함수는 스크립트에서 네임스페이스가 있는 전역 함수로 바인딩됩니다.
 
-Note that for static functions only, the name of the class will go through [Namespace Simplification](@/scripting/function-libraries.md#namespace-simplification) when they are bound.
+정적 함수를 바인딩할 때만 클래스 이름에 [네임스페이스 단순화](@/scripting/function-libraries.md#namespace-simplification)가 적용됩니다.
 
-## Enum Bindings
+## 열거형 바인딩
 
-Any `UENUM()` declared in C++ is automatically usable in script.
+C++에 선언된 모든 `UENUM()`은 스크립트에서 자동으로 사용할 수 있습니다.

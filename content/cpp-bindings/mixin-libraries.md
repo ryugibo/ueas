@@ -1,18 +1,18 @@
 +++
-title = "Script Mixin Libraries"
+title = "스크립트 믹스인 라이브러리"
 weight = 10
 +++
 
-# Script Mixin Libraries
-Instead of adding new namespaced static functions for scripts, it can be useful to provide additional _methods_ on existing types.
+# 스크립트 믹스인 라이브러리
+스크립트에 네임스페이스가 있는 새 정적 함수를 추가하는 대신, 기존 타입에 추가 _메서드_ 를 제공하는 것이 유용할 수 있습니다.
 
-To do this, use the `ScriptMixin` metadata on a C++ class with static functions.  
-Any static function whose first argument matches the type specified in the metadata will be bound as a method on that type.
+이를 위해 정적 함수가 있는 C++ 클래스에 `ScriptMixin` 메타데이터를 사용합니다.
+첫 번째 인수가 메타데이터에 지정된 타입과 일치하는 모든 정적 함수는 해당 타입의 메서드로 바인딩됩니다.
 
-A common use case for this is to add methods to `USTRUCT`s, which cannot have `UFUNCTION`s on them, and as such cannot have methods using normal automatic bindings.
+대표적인 용도는 `UFUNCTION`을 가질 수 없어 일반 자동 바인딩으로 메서드를 제공할 수 없는 `USTRUCT`에 메서드를 추가하는 것입니다.
 
-## Mixin Libraries for Structs
-For example, the following C++ mixin library class adds two new methods to the `FVector` struct in script:
+## 구조체용 믹스인 라이브러리
+예를 들어 다음 C++ 믹스인 라이브러리 클래스는 스크립트의 `FVector` 구조체에 두 개의 새 메서드를 추가합니다.
 
 ```cpp
 UCLASS(Meta = (ScriptMixin = "FVector"))
@@ -42,10 +42,10 @@ public:
 }
 ```
 
-## Mixin Libraries for Classes
-It is also possible to add new methods to `UCLASS`es. In that case, take a pointer to the type as the first argument.
+## 클래스용 믹스인 라이브러리
+`UCLASS`에도 새 메서드를 추가할 수 있습니다. 이 경우 첫 번째 인수로 해당 타입의 포인터를 받습니다.
 
-The following C++ mixin library adds a new method to all `AActor`s in script:
+다음 C++ 믹스인 라이브러리는 스크립트의 모든 `AActor`에 새 메서드를 추가합니다.
 
 ```cpp
 UCLASS(Meta = (ScriptMixin = "AActor"))
@@ -64,5 +64,5 @@ public:
 }
 ```
 
-> **Note:** The angelscript plugin comes with a number of mixin libraries in it, mostly to expose C++ functionality that is not normally exposed to blueprint.  
-> For example, see the [GameplayTagMixinLibrary](https://github.com/Hazelight/UnrealEngine-Angelscript/blob/angelscript-master/Engine/Plugins/Angelscript/Source/AngelscriptCode/Public/FunctionLibraries/GameplayTagMixinLibrary.h)
+> **참고:** Angelscript 플러그인에는 일반적으로 블루프린트에 노출되지 않는 C++ 기능을 노출하기 위한 여러 믹스인 라이브러리가 포함되어 있습니다.
+> 예시는 [GameplayTagMixinLibrary](https://github.com/Hazelight/UnrealEngine-Angelscript/blob/angelscript-master/Engine/Plugins/Angelscript/Source/AngelscriptCode/Public/FunctionLibraries/GameplayTagMixinLibrary.h)를 참고하세요.

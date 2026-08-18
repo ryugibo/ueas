@@ -1,23 +1,23 @@
 +++
-title = "Mixin Methods"
+title = "믹스인 메서드"
 weight = 100
 sort_by = "weight"
 +++
 
-# Mixin Methods
+# 믹스인 메서드
 
-It's possible in script to declare a method on a type outside the class body.
-This can be useful either to add methods to types from C++, or to separate out functionality from different systems.
+스크립트에서는 클래스 본문 밖에서 특정 타입의 메서드를 선언할 수 있습니다.
+C++ 타입에 메서드를 추가하거나 서로 다른 시스템의 기능을 분리할 때 유용합니다.
 
-To do this, declare a global function with the `mixin` keyword.
-The first parameter of the mixin function is filled with the object it is called on.
+전역 함수를 `mixin` 키워드로 선언하면 됩니다.
+믹스인 함수의 첫 번째 매개변수에는 이 함수를 호출한 객체가 전달됩니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: 'Terminus (TTF) for Windows', Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;"><div><span style="color: #6a9955;">// Mixin method that teleports any actor</span></div><div><span style="color: #6a9955;">// The first, 'Self' parameter gets set to the actor it is called on</span></div><div><span style="color: #569cd6;">mixin</span><span style="color: #d4d4d4;"> </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">ExampleMixinTeleportActor</span><span style="color: #d4d4d4;">(</span><span style="color: #4ec9b0;">AActor</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">Self</span><span style="color: #d4d4d4;">, </span><span style="color: #4ec9b0;">FVector</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">Location</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">Self</span><span style="color: #d4d4d4;">.</span><span style="color: #9cdcfe;">ActorLocation</span><span style="color: #d4d4d4;"> = </span><span style="color: #9cdcfe;">Location</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">}</span></div><br><div><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">Example_MixinMethod</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #6a9955;">// Call the mixin method on an actor</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #6a9955;">// Note how ActorReference is passed into Self automatically</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">AActor</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">ActorReference</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">ActorReference</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">ExampleMixinTeleportActor</span><span style="color: #d4d4d4;">(</span><span style="color: #4ec9b0;">FVector</span><span style="color: #d4d4d4;">(</span><span style="color: #b5cea8;">0.0</span><span style="color: #d4d4d4;">, </span><span style="color: #b5cea8;">0.0</span><span style="color: #d4d4d4;">, </span><span style="color: #b5cea8;">100.0</span><span style="color: #d4d4d4;">));</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
 
-When creating mixins for structs, you can take a reference to the struct as the first parameter.
-This allows changes to be made to it:
+구조체용 믹스인을 만들 때는 첫 번째 매개변수로 구조체 참조를 받을 수 있습니다.
+그러면 해당 구조체를 변경할 수 있습니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: 'Terminus (TTF) for Windows', Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;"><div><span style="color: #569cd6;">mixin</span><span style="color: #d4d4d4;"> </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">SetVectorToZero</span><span style="color: #d4d4d4;">(</span><span style="color: #4ec9b0;">FVector</span><span style="color: #d4d4d4;">&amp; </span><span style="color: #9cdcfe;">Vector</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">Vector</span><span style="color: #d4d4d4;"> = </span><span style="color: #4ec9b0;">FVector</span><span style="color: #d4d4d4;">(</span><span style="color: #b5cea8;">0</span><span style="color: #d4d4d4;">, </span><span style="color: #b5cea8;">0</span><span style="color: #d4d4d4;">, </span><span style="color: #b5cea8;">0</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">}</span></div><br><div><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">Example_StructMixin</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">FVector</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">LocalValue</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">LocalValue</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">SetVectorToZero</span><span style="color: #d4d4d4;">();</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
 
-> **Note:** It is also possible to create mixin functions from C++ with bindings.  
-> See [Script Mixin Libraries](@/cpp-bindings/mixin-libraries.md) for details.
+> **참고:** 바인딩을 이용해 C++에서 믹스인 함수를 만들 수도 있습니다.
+> 자세한 내용은 [스크립트 믹스인 라이브러리](@/cpp-bindings/mixin-libraries.md)를 참고하세요.

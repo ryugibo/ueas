@@ -1,30 +1,29 @@
 +++
-title = "Installation"
+title = "설치"
 weight = 10
 +++
 
-# Installation
-## 1. Getting Unreal Engine Source Access
-The angelscript integration requires direct changes to unreal engine code to work.
-You will need to get access to unreal engine source code to be able to access the 
-version of the engine used in this project.
+# 설치
+## 1. Unreal Engine 소스 접근 권한 얻기
+Angelscript 통합이 작동하려면 Unreal Engine 코드를 직접 변경해야 합니다.
+이 프로젝트에서 사용하는 엔진 버전에 접근하려면 Unreal Engine 소스 코드 접근 권한이 필요합니다.
 
-To get source code access, follow this guide from Epic Games:
+소스 코드 접근 권한을 얻으려면 Epic Games의 다음 안내를 따르세요.
 [https://www.unrealengine.com/en-US/ue-on-github](https://www.unrealengine.com/en-US/ue-on-github)
 
 
-## 2. Downloading UnrealEngine-Angelscript
-After getting access to unreal source code, clone the [UnrealEngine-Angelscript GitHub Repository](https://github.com/Hazelight/UnrealEngine-Angelscript)
-and build the unreal editor using visual studio as usual.
+## 2. UnrealEngine-Angelscript 다운로드
+Unreal 소스 코드 접근 권한을 얻은 다음 [UnrealEngine-Angelscript GitHub 저장소](https://github.com/Hazelight/UnrealEngine-Angelscript)를 복제하고,
+평소와 같이 Visual Studio를 사용해 Unreal Editor를 빌드하세요.
 
-Note that any additional plugins you want to add to the engine need to be built from source.
-This fork is not be compatible with pre-built binary plugins.
+엔진에 추가하려는 모든 플러그인도 소스에서 빌드해야 합니다.
+이 포크는 미리 빌드된 바이너리 플러그인과 호환되지 않습니다.
 
 
-## 3. Installing the Visual Studio Code Extension
-A visual studio code extension with auto-completion and debugging support is available.
+## 3. Visual Studio Code 확장 프로그램 설치
+자동 완성과 디버깅을 지원하는 Visual Studio Code 확장 프로그램을 사용할 수 있습니다.
 
-Install visual studio code from [https://code.visualstudio.com/](https://code.visualstudio.com/).
+[https://code.visualstudio.com/](https://code.visualstudio.com/)에서 Visual Studio Code를 설치하세요.
 
-Then install the [Unreal Angelscript Extension](https://marketplace.visualstudio.com/items?itemName=Hazelight.unreal-angelscript)
-from the marketplace, or search for 'Unreal Angelscript' in the extensions sidebar within Visual Studio Code.
+그런 다음 마켓플레이스에서 [Unreal Angelscript 확장 프로그램](https://marketplace.visualstudio.com/items?itemName=Hazelight.unreal-angelscript)을 설치하거나,
+Visual Studio Code의 확장 사이드바에서 'Unreal Angelscript'를 검색하세요.

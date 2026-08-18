@@ -1,4 +1,4 @@
 # Docs-UnrealEngine-Angelscript
-Source text for the [Unreal Engine Angelscript](http://angelscript.hazelight.se/) documentation website.
+[Unreal Engine Angelscript](http://angelscript.hazelight.se/) 문서 웹사이트의 원문입니다.
 
-Generated using [zola](https://www.getzola.org/).
+[Zola](https://www.getzola.org/)로 생성합니다.

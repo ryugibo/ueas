@@ -1,45 +1,45 @@
 +++
-title = "Subsystems"
+title = "서브시스템"
 weight = 140
 +++
 
-# Subsystems
+# 서브시스템
 
-Subsystems are one of unreal's ways to collect common functionality into easily accessible singletons.
-See the [Unreal Documentation on Programming Subsystems](https://docs.unrealengine.com/5.1/en-US/programming-subsystems-in-unreal-engine/) for more details.
+서브시스템은 공통 기능을 접근하기 쉬운 싱글턴으로 모으는 Unreal의 방법 중 하나입니다.
+자세한 내용은 [서브시스템 프로그래밍 Unreal 문서](https://docs.unrealengine.com/5.1/en-US/programming-subsystems-in-unreal-engine/)를 참고하세요.
 
-## Using a Subsystem
+## 서브시스템 사용
 
-Subsystems in script can be retrieved by using `USubsystemClass::Get()`.
+스크립트에서는 `USubsystemClass::Get()`을 사용해 서브시스템을 가져올 수 있습니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: 'Terminus (TTF) for Windows', Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;"><div><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">TestCreateNewLevel</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">auto</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">LevelEditorSubsystem</span><span style="color: #d4d4d4;"> = </span><span style="color: #4ec9b0;">ULevelEditorSubsystem</span><span style="color: #d4d4d4;">::</span><span style="color: #dcdcaa;">Get</span><span style="color: #d4d4d4;">();</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">LevelEditorSubsystem</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">NewLevel</span><span style="color: #d4d4d4;">(</span><span style="color: #ce9178;">"/Game/NewLevel"</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
 
-> **Note:** Many subsystems are _Editor Subsystems_ and cannot be used in packaged games.  
-> Make sure you only use editor subsystems inside [Editor-Only Script](@/scripting/editor-script.md).
+> **참고:** 많은 서브시스템은 _에디터 서브시스템_ 이므로 패키징된 게임에서 사용할 수 없습니다.
+> 에디터 서브시스템은 반드시 [에디터 전용 스크립트](@/scripting/editor-script.md) 안에서만 사용하세요.
 
-## Creating a Subsystem
+## 서브시스템 생성
 
-To allow creating subsystems in script, helper base classes are available to inherit from that expose overridable functions.  
-These are:
+스크립트에서 서브시스템을 만들 수 있도록 오버라이드 가능한 함수를 노출하는 헬퍼 부모 클래스가 제공됩니다.
+다음 클래스를 상속할 수 있습니다.
 
-- `UScriptWorldSubsystem` for world subsystems
-- `UScriptGameInstanceSubsystem` for game instance subsystems
-- `UScriptLocalPlayerSubsystem` for local player subsystems
-- `UScriptEditorSubsystem` for editor subsystems
-- `UScriptEngineSubsystem` for engine subsystems
+- 월드 서브시스템: `UScriptWorldSubsystem`
+- 게임 인스턴스 서브시스템: `UScriptGameInstanceSubsystem`
+- 로컬 플레이어 서브시스템: `UScriptLocalPlayerSubsystem`
+- 에디터 서브시스템: `UScriptEditorSubsystem`
+- 엔진 서브시스템: `UScriptEngineSubsystem`
 
-For example, a scripted world subsystem might look like this:
+예를 들어 스크립트 월드 서브시스템은 다음과 같이 작성할 수 있습니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: 'Terminus (TTF) for Windows', Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;"><div><span style="color: #569cd6;">class</span><span style="color: #d4d4d4;"> </span><span style="color: #4ec9b0;">UMyGameWorldSubsystem</span><span style="color: #d4d4d4;"> : </span><span style="color: #4ec9b0;">UScriptWorldSubsystem</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4fc1ff;">UFUNCTION</span><span style="color: #d4d4d4;">(</span><span style="color: #569cd6;">BlueprintOverride</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">Initialize</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">&#160; &#160; {</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #dcdcaa;">Print</span><span style="color: #d4d4d4;">(</span><span style="color: #ce9178;">"MyGame World Subsystem Initialized!"</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">&#160; &#160; }</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4fc1ff;">UFUNCTION</span><span style="color: #d4d4d4;">(</span><span style="color: #569cd6;">BlueprintOverride</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">Tick</span><span style="color: #d4d4d4;">(</span><span style="color: #569cd6;">float</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">DeltaTime</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">&#160; &#160; {</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #dcdcaa;">Print</span><span style="color: #d4d4d4;">(</span><span style="color: #ce9178;">"Tick"</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">&#160; &#160; }</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #6a9955;">// Create functions on the subsystem to expose functionality</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4fc1ff;">UFUNCTION</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">LookAtMyActor</span><span style="color: #d4d4d4;">(</span><span style="color: #4ec9b0;">AActor</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">Actor</span><span style="color: #d4d4d4;">)</span></div><div><span style="color: #d4d4d4;">&#160; &#160; {</span></div><div><span style="color: #d4d4d4;">&#160; &#160; }</span></div><div><span style="color: #d4d4d4;">}</span></div><br><div><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">UseMyGameWorldSubsystem</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">auto</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">MySubsystem</span><span style="color: #d4d4d4;"> = </span><span style="color: #4ec9b0;">UMyGameWorldSubsystem</span><span style="color: #d4d4d4;">::</span><span style="color: #dcdcaa;">Get</span><span style="color: #d4d4d4;">();</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #9cdcfe;">MySubsystem</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">LookAtMyActor</span><span style="color: #d4d4d4;">(</span><span style="color: #569cd6;">nullptr</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
 
-Any `UFUNCTION`s you've declared can also be accessed from blueprint on your subsystem:
+선언한 모든 `UFUNCTION`은 서브시스템의 블루프린트에서도 접근할 수 있습니다.
 
 {{ img(path="scripted-subsystem.png") }}
 
-## Local Player Subsystems
+## 로컬 플레이어 서브시스템
 
-In case of local player subsystems, you need to pass which `ULocalPlayer` to retrieve the subsystem for into the `::Get()` function:
+로컬 플레이어 서브시스템에서는 서브시스템을 가져올 대상 `ULocalPlayer`를 `::Get()` 함수에 전달해야 합니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: 'Terminus (TTF) for Windows', Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;"><div><span style="color: #569cd6;">class</span><span style="color: #d4d4d4;"> </span><span style="color: #4ec9b0;">UMyPlayerSubsystem</span><span style="color: #d4d4d4;"> : </span><span style="color: #4ec9b0;">UScriptLocalPlayerSubsystem</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">}</span></div><br><div><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">UseScriptedPlayerSubsystem</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">ULocalPlayer</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">RelevantPlayer</span><span style="color: #d4d4d4;"> = </span><span style="color: #4ec9b0;">Gameplay</span><span style="color: #d4d4d4;">::</span><span style="color: #dcdcaa;">GetPlayerController</span><span style="color: #d4d4d4;">(</span><span style="color: #b5cea8;">0</span><span style="color: #d4d4d4;">).</span><span style="color: #9cdcfe;">LocalPlayer</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">auto</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">MySubsystem</span><span style="color: #d4d4d4;"> = </span><span style="color: #4ec9b0;">UMyPlayerSubsystem</span><span style="color: #d4d4d4;">::</span><span style="color: #dcdcaa;">Get</span><span style="color: #d4d4d4;">(</span><span style="color: #9cdcfe;">RelevantPlayer</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
 
-> **Note:** It is also possible to directly pass an `APlayerController` when retrieving a local player subsystem.
+> **참고:** 로컬 플레이어 서브시스템을 가져올 때 `APlayerController`를 직접 전달할 수도 있습니다.

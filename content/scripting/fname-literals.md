@@ -1,24 +1,17 @@
 +++
-title = "FName Literals"
+title = "FName 리터럴"
 weight = 50
 sort_by = "weight"
 +++
 
-# FName Literals
-A lot of unreal systems use `FName` to efficiently pass around arbitrary
-names without having to copy and compare strings a lot. The name struct itself
-is just an index into a name table, and creating an `FName` from a string does
-a table lookup or inserts a new entry into the table.
+# FName 리터럴
+많은 Unreal 시스템은 문자열을 반복해서 복사하고 비교하지 않으면서 임의의 이름을 효율적으로 전달하기 위해 `FName`을 사용합니다. 이름 구조체 자체는 이름 테이블의 인덱스일 뿐이며, 문자열로 `FName`을 만들면 테이블을 조회하거나 새 항목을 삽입합니다.
 
-A common pattern in C++ is to declare a global/static variable for an `FName`
-constant to use, so that the name table lookup only happens once at startup.
+C++에서는 이름 테이블 조회가 시작 시 한 번만 일어나도록 `FName` 상수를 전역 또는 정적 변수로 선언하는 패턴을 흔히 사용합니다.
 
-In angelscript, this pattern is simplified by using name literals.
-Any string that is declared as `n"NameLiteral"` will be
-initialized at angelscript compile time, removing
-the nametable lookup from runtime.
+Angelscript에서는 이름 리터럴을 사용해 이 패턴을 단순화합니다.
+`n"NameLiteral"`로 선언한 모든 문자열은 Angelscript 컴파일 시 초기화되므로 런타임의 이름 테이블 조회가 사라집니다.
 
-Name literals have many uses. An example of using a name literal to bind
-a delegate to a `UFUNCTION()` in angelscript:
+이름 리터럴은 여러 용도로 사용할 수 있습니다. 다음은 Angelscript에서 이름 리터럴을 사용해 델리게이트를 `UFUNCTION()`에 바인딩하는 예입니다.
 
 <div class="code_block" style="color: #d4d4d4;background-color: #1e1e1e;font-family: Consolas, 'Courier New', monospace;font-weight: normal;font-size: 16px;line-height: 21px;white-space: pre;"><div><span style="color: #569cd6;">delegate</span><span style="color: #d4d4d4;"> </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #4ec9b0;">FExampleDelegate</span><span style="color: #d4d4d4;">();</span></div><br><div><span style="color: #569cd6;">class</span><span style="color: #d4d4d4;"> </span><span style="color: #4ec9b0;">ANameLiteralActor</span><span style="color: #d4d4d4;"> : </span><span style="color: #4ec9b0;">AActor</span></div><div><span style="color: #d4d4d4;">{</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4ec9b0;">TMap</span><span style="color: #d4d4d4;">&lt;</span><span style="color: #4ec9b0;">FName</span><span style="color: #d4d4d4;">, </span><span style="color: #569cd6;">int</span><span style="color: #d4d4d4;">&gt; </span><span style="color: #9cdcfe;">ValuesByName</span><span style="color: #d4d4d4;">;</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">UseNameLiteral</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">&#160; &#160; {</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #4ec9b0;">FName</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">NameVariable</span><span style="color: #d4d4d4;"> = n</span><span style="color: #ce9178;">"MyName"</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #9cdcfe;">ValuesByName</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">Add</span><span style="color: #d4d4d4;">(</span><span style="color: #9cdcfe;">NameVariable</span><span style="color: #d4d4d4;">, </span><span style="color: #b5cea8;">1</span><span style="color: #d4d4d4;">);</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #4ec9b0;">FExampleDelegate</span><span style="color: #d4d4d4;"> </span><span style="color: #9cdcfe;">Delegate</span><span style="color: #d4d4d4;">;</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #9cdcfe;">Delegate</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">BindUFunction</span><span style="color: #d4d4d4;">(</span><span style="color: #569cd6;">this</span><span style="color: #d4d4d4;">, n</span><span style="color: #ce9178;">"FunctionBoundToDelegate"</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #9cdcfe;">Delegate</span><span style="color: #d4d4d4;">.</span><span style="color: #dcdcaa;">ExecuteIfBound</span><span style="color: #d4d4d4;">();</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #6a9955;">// Due to the name literal, no string manipulation happens</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #6a9955;">// in calls to UseNameLiteral() during runtime.</span></div><div><span style="color: #d4d4d4;">&#160; &#160; }</span></div><br><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #4fc1ff;">UFUNCTION</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">&#160; &#160; </span><span style="color: #569cd6;">void</span><span style="color: #d4d4d4;"> </span><span style="color: #dcdcaa;">FunctionBoundToDelegate</span><span style="color: #d4d4d4;">()</span></div><div><span style="color: #d4d4d4;">&#160; &#160; {</span></div><div><span style="color: #d4d4d4;">&#160; &#160; &#160; &#160; </span><span style="color: #dcdcaa;">Print</span><span style="color: #d4d4d4;">(</span><span style="color: #ce9178;">"Delegate executed"</span><span style="color: #d4d4d4;">);</span></div><div><span style="color: #d4d4d4;">&#160; &#160; }</span></div><div><span style="color: #d4d4d4;">}</span></div></div>
